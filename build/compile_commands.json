@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/Users/matthewpham/repos/cpp/pong_game/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/opt/homebrew/Cellar/sdl2/2.30.11/include -isystem /opt/homebrew/Cellar/sdl2/2.30.11/include/SDL2 -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/Pong.dir/src/Game.cpp.o -c /Users/matthewpham/repos/cpp/pong_game/src/Game.cpp",
+  "file": "/Users/matthewpham/repos/cpp/pong_game/src/Game.cpp",
+  "output": "CMakeFiles/Pong.dir/src/Game.cpp.o"
+},
+{
+  "directory": "/Users/matthewpham/repos/cpp/pong_game/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/opt/homebrew/Cellar/sdl2/2.30.11/include -isystem /opt/homebrew/Cellar/sdl2/2.30.11/include/SDL2 -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/Pong.dir/src/Paddle.cpp.o -c /Users/matthewpham/repos/cpp/pong_game/src/Paddle.cpp",
+  "file": "/Users/matthewpham/repos/cpp/pong_game/src/Paddle.cpp",
+  "output": "CMakeFiles/Pong.dir/src/Paddle.cpp.o"
+},
+{
+  "directory": "/Users/matthewpham/repos/cpp/pong_game/build",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++  -I/opt/homebrew/Cellar/sdl2/2.30.11/include -isystem /opt/homebrew/Cellar/sdl2/2.30.11/include/SDL2 -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/Pong.dir/src/main.cpp.o -c /Users/matthewpham/repos/cpp/pong_game/src/main.cpp",
+  "file": "/Users/matthewpham/repos/cpp/pong_game/src/main.cpp",
+  "output": "CMakeFiles/Pong.dir/src/main.cpp.o"
+}
+]
