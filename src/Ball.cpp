@@ -5,7 +5,7 @@
 #include <SDL_rect.h>
 #include <SDL_render.h>
 #include <SDL_surface.h>
-#include <string>
+#include <cmath>
 
 Ball::Ball(SDL_Renderer *renderer) {
   mPosX = int(SCREEN_WIDTH / 2) - int(BALL_WIDTH / 2);
@@ -18,6 +18,7 @@ Ball::Ball(SDL_Renderer *renderer) {
   mCollider.w = BALL_WIDTH;
 }
 int Ball::move(float timeStep, SDL_Rect wall1, SDL_Rect wall2) {
+  bool hit = false;
   mPosX += mVelX * timeStep;
   if (mPosX < 0) {
     reset();
@@ -31,20 +32,39 @@ int Ball::move(float timeStep, SDL_Rect wall1, SDL_Rect wall2) {
   if (mPosY < 0) {
     mPosY = 0;
     mVelY *= -1;
+    hit = true;
   } else if (mPosY > SCREEN_HEIGHT - BALL_HEIGHT) {
     mPosY = SCREEN_HEIGHT - BALL_HEIGHT;
     mVelY *= -1;
+    hit = true;
   }
   if (checkCollision(mCollider, wall1)) {
+    float relativeIntersectY = (wall1.y + (float(Paddle::PADDLE_HEIGHT) / 2)) -
+                               (mPosY + (float(BALL_HEIGHT) / 2));
+    float normalizedRelativeIntersectionY =
+        (relativeIntersectY / (float(Paddle::PADDLE_HEIGHT) / 2));
+    float bounceAngle = normalizedRelativeIntersectionY * MAX_BOUNCE_ANGLE;
     mPosX = wall1.x + wall1.w;
-    mVelX *= -1;
+    mVelX = BALL_VEL * cos(bounceAngle);
+    mVelY = BALL_VEL * sin(bounceAngle);
+    hit = true;
   }
   if (checkCollision(mCollider, wall2)) {
-    mPosX = wall2.x - BALL_WIDTH;
-    mVelX *= -1;
+    float relativeIntersectY = (wall2.y + (float(Paddle::PADDLE_HEIGHT) / 2)) -
+                               (mPosY + (float(BALL_HEIGHT) / 2));
+    float normalizedRelativeIntersectionY =
+        (relativeIntersectY / (float(Paddle::PADDLE_HEIGHT) / 2));
+    float bounceAngle = normalizedRelativeIntersectionY * MAX_BOUNCE_ANGLE;
+    mPosX = wall2.x - BALL_WIDTH - 1;
+    mVelX = -1 * BALL_VEL * cos(bounceAngle);
+    mVelY = BALL_VEL * sin(bounceAngle);
+    hit = true;
   }
   mCollider.x = mPosX;
   mCollider.y = mPosY;
+  if (hit) {
+    return PADDLE_HIT;
+  }
   return NO_SCORE;
 }
 

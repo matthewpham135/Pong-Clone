@@ -7,6 +7,7 @@
 #include <SDL_error.h>
 #include <SDL_events.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <SDL_rect.h>
 #include <SDL_render.h>
 #include <SDL_surface.h>
@@ -15,6 +16,7 @@
 #include <SDL_video.h>
 #include <cstddef>
 #include <sstream>
+
 Game::Game() {}
 
 bool Game::init() {
@@ -47,6 +49,11 @@ bool Game::init() {
                  TTF_GetError());
           success = false;
         }
+        if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+          printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n",
+                 Mix_GetError());
+          success = false;
+        }
       }
     }
   }
@@ -58,6 +65,11 @@ bool Game::loadMedia() {
   gameFont = TTF_OpenFont("../assets/fonts/font.ttf", 28);
   if (gameFont == NULL) {
     printf("Failed to load game font! SDL_ttf Error: %s\n", TTF_GetError());
+    success = false;
+  }
+  hitSound = Mix_LoadWAV("../assets/sounds/hit.wav");
+  if (!hitSound) {
+    printf("Failed to load music! SDL_mixer Error: %s\n", Mix_GetError());
     success = false;
   }
   return success;
@@ -95,12 +107,15 @@ void Game::close() {
   score2Texture = NULL;
   TTF_CloseFont(gameFont);
   gameFont = NULL;
+  Mix_FreeChunk(hitSound);
+  hitSound = NULL;
   SDL_DestroyRenderer(renderer);
   renderer = NULL;
   SDL_DestroyWindow(window);
   window = NULL;
   IMG_Quit();
   TTF_Quit();
+  Mix_Quit();
   SDL_Quit();
 }
 
@@ -145,8 +160,9 @@ void Game::run() {
           score1 += 1;
         } else if (result == PLAYER_2_SCORES) {
           score2 += 1;
+        } else if (result == PADDLE_HIT) {
+          Mix_PlayChannel(-1, hitSound, 0);
         }
-
         score1Text.str("");
         score1Text << score1;
         score2Text.str("");

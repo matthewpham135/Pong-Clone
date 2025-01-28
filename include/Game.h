@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <SDL_mixer.h>
 class SDL_Window;
 class SDL_Renderer;
 class TTF_Font;
@@ -22,6 +23,7 @@ private:
   SDL_Texture *score1Texture;
   SDL_Texture *score2Texture;
   TTF_Font *gameFont;
+  Mix_Chunk *hitSound;
 };
 
 #endif

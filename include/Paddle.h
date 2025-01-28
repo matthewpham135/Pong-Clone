@@ -15,8 +15,6 @@ public:
   void move(float timeStep);
   void render(SDL_Renderer *renderer);
   SDL_Rect mCollider;
-
-private:
   int playerId;
   float mPosX, mPosY;
   float mVelY;
